@@ -4,8 +4,8 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Крок 2: Запуск (Run)
-# Використовуємо актуальний образ Eclipse Temurin замість старого openjdk
 FROM eclipse-temurin:17-jre-focal
-COPY --from=build /target/*.jar app.jar
+# Копіюємо саме SHADED файл, який містить усі залежності
+COPY --from=build /target/*-shaded.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
